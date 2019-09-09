@@ -1,0 +1,68 @@
+
+module.exports = {
+
+    validationErrors: validationResult => (req, res, next) => {
+        const errors = validationResult(req);
+        if(errors.isEmpty()){
+            next();
+        }else{
+            next(errors);
+        }
+    },
+    
+    emailExists: collection => (value, {req}) => new Promise((resolve, reject) => {
+        collection
+            .where('email', '==', value)
+            .limit(1)
+            .get()
+            .then(data => {
+                return data.size ? resolve() : reject();
+            })
+            .catch(error => {
+                reject(error);
+            });
+    }),
+    
+    authorized: admin => (value, {req}) => new Promise((resolve, reject) => {
+        let idToken;
+
+        try{
+            if(value){
+                if(value.startsWith('__MOTHERFUCKER__-')){
+                    idToken = value.split('__MOTHERFUCKER__-')[1];
+                }else{
+                    throw new Error('invalid_token');
+                }
+            }else{
+                throw new Error('token_not_found');
+            }
+        }catch(error){
+            reject(error);
+        }
+
+        admin
+            .auth()
+            .verifyIdToken(idToken)
+            .then(decodedToken => {
+                req.authToken = decodedToken;
+                return decodedToken;
+            })
+            .then(decodedToken => {
+                return admin
+                        .firestore()
+                        .collection('users')
+                        .where('userId', '==', decodedToken.user_id)
+                        .limit(1)
+                        .get()
+            })
+            .then(data => {
+                req.authUserId = data.docs[0].data().userId;
+                req.authUserCollectionId = data.docs[0].id;
+
+                resolve();
+            })
+            .catch(error => {
+                reject(error);
+            });
+    })
+}
