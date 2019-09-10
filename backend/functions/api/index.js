@@ -4,7 +4,7 @@ const Router = express.Router();
 
 const Users = require('./Users');
 
-Router.use('/users/', Users);
+Router.use('/users', Users);
 
 Router.use((req, res, next) => {
     res.status(200)
