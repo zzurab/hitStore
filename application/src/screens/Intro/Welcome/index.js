@@ -10,9 +10,24 @@ import {
 } from 'react-native-material-ui';
 
 class Welcome extends React.Component{
+    static navigationOptions = {
+        headerMode: 'none',
+        header: () => null
+    }
+    
     render(){
         return (
-            <View>
+            <View style={{marginTop: 60}}>
+                <Text>
+                    Content
+                </Text>
+                <Button 
+                    text={'login'}
+                    primary
+                    raised
+                    onPress={() => {
+                        this.props.navigation.navigate('Login');
+                    }}/>
             </View>
         )
     }

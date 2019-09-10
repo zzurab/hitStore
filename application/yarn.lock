@@ -4460,6 +4460,11 @@ react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.8:
   dependencies:
     debounce "^1.2.0"
 
+react-native-sidebar@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-sidebar/-/react-native-sidebar-0.3.0.tgz#0d78c5a08b8d7ade89ff46bf22090475c6442cc3"
+  integrity sha1-DXjFoIuNet6J/0a/IgkEdcZELMM=
+
 react-native-tab-view@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"
