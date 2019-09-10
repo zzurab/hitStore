@@ -10,10 +10,6 @@ import {
 } from 'react-native-material-ui';
 
 class Welcome extends React.Component{
-    static navigationOptions = {
-        headerMode: 'none',
-        header: () => null
-    }
     
     render(){
         return (

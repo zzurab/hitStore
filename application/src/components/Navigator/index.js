@@ -4,7 +4,6 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
-import {createDrawerNavigator} from 'react-navigation-drawer';
 
 import {
     Login,
@@ -26,6 +25,11 @@ export class Navigator extends React.Component{
                     }
                 }, {
                     initialRouteName: 'Welcome'
+                }),
+                Main: createMaterialBottomTabNavigator({
+                    Welcome: {
+                        screen: Welcome
+                    }
                 })
             }, {
                 initialRoutName: 'Intro'
