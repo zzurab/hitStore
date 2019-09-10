@@ -8,10 +8,12 @@ const Router = express.Router();
 const {
     check,
     validationResult,
-    header
+    header,
+    body
 } = require('express-validator');
 
 const middlewares = require('./middlewares');
+const validations = require('./validations');
 
 const {
     emailExists,
@@ -105,17 +107,7 @@ Router.route('/sign_up')
                 min: 6
             })
                 .withMessage('/users/sign_up/password/' + errorMessages.LENGTH)
-            .custom(
-                (value, {req}) => {
-                    return new Promise((resolve, reject) => {
-                        if(value !== req.body.password){
-                            reject();
-                        }else{
-                            resolve();
-                        }
-                    })
-                }
-            )
+            .custom(validations.passwordMatch)
                 .withMessage('/users/sign_up/password/' + errorMessages.MATCH),
         validationErrors(
             validationResult
@@ -130,6 +122,43 @@ Router.route('/sign_up')
             res.json({
                 status: 1,
                 response: req.hitData
+            });
+        }
+    ]);
+
+Router.route('/info')
+    .post([
+        header('authorization')
+            .custom(
+                authorized(admin)
+            )
+                .withMessage('/users/info/auth/' + errorMessages.TOKEN),
+        check('data')
+            .not()
+            .isEmpty()
+                .withMessage('/users/info/data/' + errorMessages.EMPTY)
+            .isJSON()
+                .withMessage('/users/info/data/' + errorMessages.NOT_JSON)
+            .custom(validations.correctInfoKeys)
+                .withMessage('/users/info/data/' + errorMessages.INVALID),
+        body('data')
+            .custom(
+                validations.validateData({
+                    errorMessages,
+                    errorPrefix: '/users/info/data/'
+                })
+            ),
+        validationErrors(
+            validationResult
+        ),
+        middlewares.info.update(
+            admin
+                .firestore()
+                .collection('users')
+        ),
+        (req, res, next) => {
+            res.json({
+                status: 1,
             });
         }
     ]);

@@ -93,5 +93,25 @@ module.exports = {
                         });
                 })
         }
+    },
+    info: {
+        update: collection => (req, res, next) => {
+            let updateData = {
+                'updatedAt': (new Date()).toISOString()
+            };
+            Object.keys(req.body.data).map(key => {
+                updateData[key] = req.body.data[key]
+            })
+
+            collection
+                .doc(req.authUserCollectionId)
+                .update(updateData)
+                .then(data => {
+                    next();
+                })
+                .catch(error => {
+                    next(error);
+                })
+        }
     }
 }

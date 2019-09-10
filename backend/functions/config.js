@@ -28,6 +28,8 @@ module.exports = {
         MATCH: 'match',
         EXISTS: 'exits',
         TOKEN: 'token',
-        PASSWORD: 'password'
-    }
+        PASSWORD: 'password',
+        NOT_JSON: 'not_json'
+    },
+    userInfoKeys: ['firstName', 'lastName', 'phoneNumber', 'location', 'birthDate']
 }
