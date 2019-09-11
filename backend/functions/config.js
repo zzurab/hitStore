@@ -27,9 +27,14 @@ module.exports = {
         LENGTH: 'length',
         MATCH: 'match',
         EXISTS: 'exits',
+        NOT_EXISTS: 'not_exists',
         TOKEN: 'token',
         PASSWORD: 'password',
-        NOT_JSON: 'not_json'
+        NOT_JSON: 'not_json',
+        ADMIN_ERROR: 'not_admin',
+        NOT_STRING: 'not_string'
     },
-    userInfoKeys: ['firstName', 'lastName', 'phoneNumber', 'location', 'birthDate']
+    userInfoKeys: ['firstName', 'lastName', 'phoneNumber', 'location', 'birthDate'],
+
+    languageCodes: ['en', 'ka', 'ru']
 }

@@ -64,5 +64,26 @@ module.exports = {
             .catch(error => {
                 reject(error);
             });
-    })
+    }),
+
+    isAdmin: ({collection, ADMIN_ERROR}) => (req, res, next) => {
+        if(req.authUserCollectionId){
+            collection
+                .doc(req.authUserCollectionId)
+                .get()
+                .then(data => {
+                    let userData = data.data();
+                    if(userData.admin === true){
+                        next();
+                    }else{
+                        next(new Error(ADMIN_ERROR));
+                    }
+                })
+                .catch(error => {
+                    next(error);
+                });
+        }else{
+            next(new Error('token_not_found'));
+        }
+    }
 }

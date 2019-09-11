@@ -48,16 +48,24 @@ module.exports = {
                     break;
                 }
                 case 'phoneNumber': {
-                    if(!validator.isEmpty(data[item])){
-                        data[item] = data[item].replace(/[^0-9]/g, '');
-                    }else{
-                        throw new Error(formatError(item, 'EMPTY'));
-                    }
-                    if(!validator.isMobilePhone(data[item])){
+                    try{
+                        if(!validator.isEmpty(req.body.countryCodePhoneNumber)){
+                            if(!validator.isEmpty(data[item])){
+                                data[item] = data[item].replace(/[^0-9]/g, '');
+                            }else{
+                                throw new Error(formatError(item, 'EMPTY'));
+                            }
+                            if(!validator.isMobilePhone(data[item])){
+                                throw new Error(formatError(item, 'INVALID'));
+                            }
+                            req.body.countryCodePhoneNumber = req.body.countryCodePhoneNumber.replace(/[^0-9+]/g, '');
+                            data[item] = (req.body.countryCodePhoneNumber ? req.body.countryCodePhoneNumber : '?country_code?') + data[item].trim().toLowerCase();
+                        }else {
+                            throw new Error(formatError(item, 'INVALID'));
+                        }
+                    }catch(e){
                         throw new Error(formatError(item, 'INVALID'));
                     }
-                    req.body.countryCodePhoneNumber = req.body.countryCodePhoneNumber.replace(/[^0-9+]/g, '');
-                    data[item] = (req.body.countryCodePhoneNumber ? req.body.countryCodePhoneNumber : '?country_code?') + data[item].trim().toLowerCase();
                     break;
                 }
                 case 'location': {
