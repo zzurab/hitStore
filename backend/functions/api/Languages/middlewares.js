@@ -85,6 +85,20 @@ module.exports = {
             .catch(error => {
                 next(error);
             })
-
+    },
+    updateKeyword: collection => (req, res, next) => {
+        let updateData = {
+            updatedAt: (new Date()).toISOString(),
+            value: req.body.value
+        };
+        collection
+            .doc(req.body.id)
+            .update(updateData)
+            .then(() => {
+                next();
+            })
+            .catch(error => {
+                next(error);
+            });
     }
 }

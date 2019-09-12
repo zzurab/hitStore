@@ -227,6 +227,70 @@ Router.route('/language')
     ]);
 
 Router.route('/keywords')
+    .post([
+        header('authorization')
+            .exists()
+                .withMessage('/languages/keywords/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/auth/' + errorMessages.EMPTY)
+            .bail()
+            .custom(
+                authorized(admin)
+            )
+                .withMessage('/languages/keywords/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
+        isAdmin({
+            collection: admin
+                .firestore()
+                .collection('users'),
+            ADMIN_ERROR: '/languages/keywords/auth/' + errorMessages.ADMIN_ERROR
+        }),
+        check('id')
+            .exists()
+                .withMessage('/languages/keywords/id/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/id/' + errorMessages.EMPTY)
+            .bail()
+            .trim()
+            .custom(
+                validations.keywordExistsById(
+                    admin
+                        .firestore()
+                        .collection('keywords')
+                )
+            )
+                .withMessage('/languages/keywords/id/' + errorMessages.NOT_EXISTS)
+            .bail(),
+        check('value')
+            .exists()
+                .withMessage('/languages/keywords/value/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/value/' + errorMessages.EMPTY)
+            .bail()
+            .trim()
+            .escape(),
+        validationErrors(
+            validationResult
+        ),
+        middlewares.updateKeyword(
+            admin
+                .firestore()
+                .collection('keywords')
+        ),
+        (req, res, next) => {
+            res.json({
+                status: 1
+            })
+        }
+    ])
     .put([
         header('authorization')
             .exists()
@@ -364,6 +428,6 @@ Router.route('/keywords')
                 status: 1
             })
         }
-    ])
+    ]);
     
 module.exports = Router;
