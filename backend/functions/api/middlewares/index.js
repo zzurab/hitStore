@@ -65,7 +65,18 @@ module.exports = {
                 resolve();
             })
             .catch(error => {
-                reject(error);
+                // let err;
+                // switch(error.code){
+                //     case 'auth/id-token-expired': {
+                //         err = new Error('token-expired');
+                //         break;
+                //     }
+                //     default: {
+                //         err = error;
+                //         break;
+                //     }
+                // }
+                reject();
             });
     }),
 

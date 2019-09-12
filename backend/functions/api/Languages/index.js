@@ -28,10 +28,20 @@ const {errorMessages} = require('../../config');
 Router.route('/language')
     .post([
         header('authorization')
+            .exists()
+                .withMessage('/languages/language/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/language/auth/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 authorized(admin)
             )
                 .withMessage('/languages/language/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
         isAdmin({
             collection: admin
                 .firestore()
@@ -39,9 +49,13 @@ Router.route('/language')
             ADMIN_ERROR: '/languages/language/auth/' + errorMessages.ADMIN_ERROR
         }),
         check('id')
+            .exists()
+                .withMessage('/languages/language/id/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/language/id/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 validations.languageExistsById(
                     admin
@@ -51,9 +65,13 @@ Router.route('/language')
             )
                 .withMessage('/languages/language/code/' + errorMessages.NOT_EXISTS),
         check('name')
+            .exists()
+                .withMessage('/languages/language/name/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/language/name/' + errorMessages.EMPTY)
+            .bail()
             .trim()
             .not()
             .custom(
@@ -79,22 +97,37 @@ Router.route('/language')
     ])
     .put([
         header('authorization')
+            .exists()
+                .withMessage('/languages/language/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+                .isEmpty()
+                .withMessage('/languages/language/auth/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 authorized(admin)
             )
                 .withMessage('/languages/language/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
         isAdmin({
             collection: admin
                 .firestore()
                 .collection('users'),
-            ADMIN_ERROR: '/languages/language/auth' + errorMessages.ADMIN_ERROR
+            ADMIN_ERROR: '/languages/language/auth/' + errorMessages.ADMIN_ERROR
         }),
         body('code')
+            .exists()
+                .withMessage('/languages/language/code/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/language/code/' + errorMessages.EMPTY)
+            .bail()
             .isIn(languageCodes)
                 .withMessage('/languages/language/code/' + errorMessages.INVALID)
+            .bail()
             .trim()
             .not()
             .custom(
@@ -105,9 +138,13 @@ Router.route('/language')
                 )
             ).withMessage('/languages/language/code/' + errorMessages.EXISTS),
         check('name')
+            .exists()
+                .withMessage('/languages/language/name/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/language/name/' + errorMessages.EMPTY)
+            .bail()
             .trim()
             .not()
             .custom(
@@ -133,10 +170,20 @@ Router.route('/language')
     ])
     .delete([
         header('authorization')
+            .exists()
+                .withMessage('/languages/language/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+                .isEmpty()
+                    .withMessage('/languages/language/auth/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 authorized(admin)
             )
                 .withMessage('/languages/language/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
         isAdmin({
             collection: admin
                 .firestore()
@@ -144,9 +191,13 @@ Router.route('/language')
             ADMIN_ERROR: '/languages/language/auth' + errorMessages.ADMIN_ERROR
         }),
         check('id')
+            .exists()
+                .withMessage('/languages/language/id/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/language/id/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 validations.languageExistsById(
                     admin
@@ -178,10 +229,20 @@ Router.route('/language')
 Router.route('/keywords')
     .put([
         header('authorization')
+            .exists()
+                .withMessage('/languages/keywords/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/auth/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 authorized(admin)
             )
                 .withMessage('/languages/keywords/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
         isAdmin({
             collection: admin
                 .firestore()
@@ -189,9 +250,13 @@ Router.route('/keywords')
             ADMIN_ERROR: '/languages/keywords/auth/' + errorMessages.ADMIN_ERROR
         }),
         check('languageId')
+            .exists()
+                .withMessage('/languages/keywords/languageId/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/keywords/languageId/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 validations.languageExistsById(
                     admin
@@ -201,11 +266,16 @@ Router.route('/keywords')
             )
                 .withMessage('/languages/keywords/languageId/' + errorMessages.NOT_EXISTS),
         check('slag')
+            .exists()
+                .withMessage('/languages/keywords/slag/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/keywords/slag/' + errorMessages.EMPTY)
+            .bail()
             .isString()
                 .withMessage('/languages/keywords/slag/' + errorMessages.NOT_STRING)
+            .bail()
             .not()
             .custom(
                 validations.keywordExistsBySlag(
@@ -215,12 +285,17 @@ Router.route('/keywords')
                 )
             )
                 .withMessage('/languages/keywords/slag/' + errorMessages.EXISTS)
+            .bail()
             .trim()
             .escape(),
         check('value')
+            .exists()
+                .withMessage('/languages/keywords/value/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/keywords/value/' + errorMessages.EMPTY)
+            .bail()
             .trim()
             .escape(),
         validationErrors(
@@ -239,10 +314,20 @@ Router.route('/keywords')
     ])
     .delete([
         header('authorization')
+            .exists()
+                .withMessage('/languages/keywords/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/auth/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 authorized(admin)
             )
                 .withMessage('/languages/keywords/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
         isAdmin({
             collection: admin
                 .firestore()
@@ -250,9 +335,13 @@ Router.route('/keywords')
             ADMIN_ERROR: '/languages/keywords/auth/' + errorMessages.ADMIN_ERROR
         }),
         check('id')
+            .exists()
+                .withMessage('/languages/keywords/id/' + errorMessages.NOT_EXISTS)
+            .bail()
             .not()
             .isEmpty()
                 .withMessage('/languages/keywords/id/' + errorMessages.EMPTY)
+            .bail()
             .custom(
                 validations.keywordExistsById(
                     admin
