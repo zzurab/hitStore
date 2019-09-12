@@ -33,23 +33,19 @@ module.exports = {
             })
     }),
     languageExistsById: collection => value => new Promise((resolve, reject) => {
-        try{
-            collection
-                .doc(value)
-                .get()
-                .then(data => {
-                    if(data.data()){
-                        resolve();
-                    }else{
-                        reject();
-                    }
-                })
-                .catch(error => {
+        collection
+            .doc(value)
+            .get()
+            .then(data => {
+                if(data.data()){
+                    resolve();
+                }else{
                     reject();
-                })
-        }catch(e){
-            reject();
-        }
+                }
+            })
+            .catch(error => {
+                reject();
+            })
     }),
     
     keywordExistsBySlag: collection => value => new Promise((resolve, reject) => {
