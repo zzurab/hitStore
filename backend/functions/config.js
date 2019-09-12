@@ -23,6 +23,7 @@ module.exports = {
 
     errorMessages: {
         EMPTY: 'empty',
+        NOT_EMPTY: 'not_empty',
         INVALID: 'invalid',
         LENGTH: 'length',
         MATCH: 'match',
