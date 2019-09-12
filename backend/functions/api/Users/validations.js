@@ -20,7 +20,7 @@ module.exports = {
             keys.map(key => {
                 realData[key] = data[key];
             });
-            req.body.data = realData;
+            req.tempdData = ['data', realData];
             resolve();
         }else{
             reject();

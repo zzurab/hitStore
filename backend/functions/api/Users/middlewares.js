@@ -102,7 +102,6 @@ module.exports = {
             Object.keys(req.body.data).map(key => {
                 updateData[key] = req.body.data[key]
             })
-
             collection
                 .doc(req.authUserCollectionId)
                 .update(updateData)
