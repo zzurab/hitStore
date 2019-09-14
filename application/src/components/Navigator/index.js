@@ -3,7 +3,7 @@ import React from 'react';
 
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import {
     Login,
@@ -15,7 +15,7 @@ export class Navigator extends React.Component{
         super(props);
 
         this.appContainer = createAppContainer(
-            createMaterialBottomTabNavigator({
+            createBottomTabNavigator({
                 Intro: createStackNavigator({
                     Welcome: {
                         screen: Welcome
@@ -24,9 +24,10 @@ export class Navigator extends React.Component{
                         screen: Login
                     }
                 }, {
-                    initialRouteName: 'Welcome'
+                    initialRouteName: 'Welcome',
+                    headerMode: 'none'
                 }),
-                Main: createMaterialBottomTabNavigator({
+                Main: createBottomTabNavigator({
                     Welcome: {
                         screen: Welcome
                     }
