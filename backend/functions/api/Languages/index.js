@@ -25,6 +25,24 @@ const {
 
 const {errorMessages} = require('../../config');
 
+Router.route('/')
+    .get([
+        middlewares.getAllKeywords({
+            keywords: admin
+                .firestore()
+                .collection('keywords'),
+            languages: admin
+                .firestore()
+                .collection('languages')
+        }),
+        (req, res, next) => {
+            res.json({
+                status: 1,
+                response: req.hitData
+            });
+        }
+    ])
+
 Router.route('/language')
     .post([
         header('authorization')
@@ -227,6 +245,39 @@ Router.route('/language')
     ]);
 
 Router.route('/keywords')
+    .get([
+        check('code')
+            .exists()
+                .withMessage('/languages/keywords/code/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/code/' + errorMessages.EMPTY)
+            .bail()
+            .isIn(languageCodes)
+                .withMessage('/languages/keywords/code/' + errorMessages.NOT_EXISTS),
+        validationErrors(
+            validationResult
+        ),
+        middlewares.getKeywords({
+            languages: admin
+                .firestore()
+                .collection('languages'),
+            keywords: admin
+                .firestore()
+                .collection('keywords'),
+            errors: {
+                prefix: '/languages/keywords/code/',
+                notFound: errorMessages.NOT_EXISTS
+            }
+        }),
+        (req, res, next) => {
+            res.json({
+                status: 1,
+                response: req.hitData
+            });
+        }
+    ])
     .post([
         header('authorization')
             .exists()
