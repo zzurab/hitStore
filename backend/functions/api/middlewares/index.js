@@ -1,8 +1,12 @@
 
 module.exports = {
-    transformTempdDataToData: () => (req, res, next) => {
-        req.body[req.tempdData[0]] = req.tempdData[1];
-        next();
+    transformTempdDataToData: dataNotFound => (req, res, next) => {
+        if(req.tempdData){
+            req.body[req.tempdData[0]] = req.tempdData[1];
+            next();
+        }else{
+            next(new Error(dataNotFound))
+        }
     },
     validationErrors: validationResult => (req, res, next) => {
         const errors = validationResult(req);

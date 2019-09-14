@@ -23,6 +23,7 @@ Router.use((req, res, next) => {
 });
 
 Router.use((err, req, res, next) => {
+    console.error(err);
     res.status(200)
         .json({
             status: -1,

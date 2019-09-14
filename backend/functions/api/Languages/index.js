@@ -9,7 +9,8 @@ const {
     check,
     validationResult,
     header,
-    body
+    body,
+    query
 } = require('express-validator');
 
 const middlewares = require('./middlewares');
@@ -246,7 +247,7 @@ Router.route('/language')
 
 Router.route('/keywords')
     .get([
-        check('code')
+        query('code')
             .exists()
                 .withMessage('/languages/keywords/code/' + errorMessages.NOT_EXISTS)
             .bail()
