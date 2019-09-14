@@ -176,7 +176,7 @@ Router.route('/info')
                 authorized(admin)
             )
                 .withMessage('/users/info/auth/' + errorMessages.TOKEN),
-        check('data')
+        body('data')
             .exists()
                 .withMessage('/users/info/data/' + errorMessages.NOT_EXISTS)
             .bail()
@@ -189,8 +189,10 @@ Router.route('/info')
             .bail()
             .custom(validations.correctInfoKeys)
                 .withMessage('/users/info/data/' + errorMessages.INVALID),
-                transformTempdDataToData(),
-        check('data')
+        transformTempdDataToData(
+            '/users/info/data/' + errorMessages.INVALID
+        ),
+        body('data')
             .exists()
                 .withMessage('/users/info/data/' + errorMessages.NOT_EXISTS)
             .bail()
