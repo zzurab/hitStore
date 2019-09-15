@@ -26,7 +26,7 @@ module.exports = {
     },
     output: {
         path: path.resolve('./', 'build'),
-        filename: process.env.NODE_ENV !== 'development' ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js'
+        filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js'
     },
 
     module: {
@@ -69,6 +69,7 @@ module.exports = {
     },
 
     devServer: {
+        historyApiFallback: true,
         contentBase: path.resolve('./', 'build'),
         compress: true,
         port: 660,
@@ -89,7 +90,7 @@ module.exports = {
     ]
 }
 
-if(process.env.NODE_ENV === 'dev'){
+if(process.env.NODE_ENV !== 'production'){
     module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.HotModuleReplacementPlugin()
     ]);
