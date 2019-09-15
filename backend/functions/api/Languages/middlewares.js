@@ -149,6 +149,35 @@ module.exports = {
                 reject(error);
             })
     },
+    addKeywords: collection => (req, res, next) => {
+        let keyword = {
+            slag: req.body.slag,
+            createdAt: (new Date()).toISOString()
+        };
+
+        let promises = Object.keys(req.body.data).map(lang => {
+            return new Promise((resolve, reject) => {
+                keyword.value = req.body.data[lang];
+                keyword.languageId = lang;
+                collection
+                    .add(keyword)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+        });
+
+        Promise.all(promises)
+            .then(() => {
+                next();
+            })
+            .catch(error => {
+                next(error);
+            })
+    },
     removeKeywordById: collection => (req, res, next) => {
         collection
             .doc(req.body.id)

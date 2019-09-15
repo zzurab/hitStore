@@ -76,13 +76,37 @@ module.exports = {
                 reject(error);
             })
     }),
-    keywordExistsBySlagAndLanguageId: ({languageCollection, keywordsCollection}) => (value, {req}) => new Promise((resolve, reject) => {
+    keywordExistsBySlagAndLanguageId: ({keywordsCollection}) => (value, {req}) => new Promise((resolve, reject) => {
         keywordsCollection
             .where('languageId', '==', req.body.languageId)
             .where('slag', '==', value)
             .get()
             .then(data => {
                 return data.docs.length ? resolve() : reject();
+            })
+            .catch(error => {
+                reject(error);
+            })
+    }),
+
+    isDataCorrect: languagesCollection => (value, {req}) => new Promise((resolve, reject) => {
+        let data = JSON.parse(value);
+        let languages = Object.keys(data);
+        languagesCollection
+            .get()
+            .then(languageDocs => {
+                let languagesIDS = languageDocs.docs.map(langDoc => langDoc.id);
+                let validLanguages = languages.filter(lang => languagesIDS.includes(lang));
+                let realData = {};
+                if(validLanguages.length){
+                    validLanguages.map(lang => {
+                        realData[lang] = data[lang];
+                    });
+                    req.tempdData = ['data', realData];
+                    resolve();
+                }else{
+                    reject();
+                }
             })
             .catch(error => {
                 reject(error);

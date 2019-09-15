@@ -21,7 +21,8 @@ const {languageCodes} = require('../../config');
 const {
     authorized,
     validationErrors,
-    isAdmin
+    isAdmin,
+    transformTempdDataToData
 } = require('../middlewares');
 
 const {errorMessages} = require('../../config');
@@ -482,32 +483,81 @@ Router.route('/keywords')
         }
     ]);
 
-// Router.route('/keywords/multi')
-//     .put([
-//         header('authorization')
-//             .exists()
-//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.NOT_EXISTS)
-//             .bail()
-//             .not()
-//                 .isEmpty()
-//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.EMPTY)
-//             .bail()
-//             .custom(
-//                 authorized(admin)
-//             )
-//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.TOKEN),
-//         validationErrors(
-//             validationResult
-//         ),
-//         isAdmin({
-//             collection: admin
-//                 .firestore()
-//                 .collection('users'),
-//             ADMIN_ERROR: '/languages/keywords/multi/auth/' + errorMessages.ADMIN_ERROR
-//         }),
-//         check('slag')
-//             .exists()
-//                 .withMessage('/languages')
-//     ])
+Router.route('/keywords/multi')
+    .put([
+        header('authorization')
+            .exists()
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+                .isEmpty()
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.EMPTY)
+            .bail()
+            .custom(
+                authorized(admin)
+            )
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
+        isAdmin({
+            collection: admin
+                .firestore()
+                .collection('users'),
+            ADMIN_ERROR: '/languages/keywords/multi/auth/' + errorMessages.ADMIN_ERROR
+        }),
+        check('slag')
+            .exists()
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.EMPTY)
+            .bail()
+            .not()
+            .custom(
+                validations.keywordExistsBySlag(
+                    admin
+                        .firestore()
+                        .collection('keywords')
+                )
+            )
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.EXISTS),
+        check('data')
+            .exists()
+                .withMessage('/languages/keywords/multi/data/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/multi/data/' + errorMessages.EMPTY)
+            .bail()
+            .isJSON()
+                .withMessage('/languages/keywords/multi/data/' + errorMessages.NOT_JSON)
+            .bail()
+            .custom(
+                validations.isDataCorrect(
+                    admin
+                        .firestore()
+                        .collection('languages')
+                )
+            )
+                .withMessage('/languages/keywords/multi/data/' + errorMessages.INVALID),
+        transformTempdDataToData(
+            '/languages/keywords/multi/data/' + errorMessages.INVALID
+        ),
+        validationErrors(
+            validationResult
+        ),
+        middlewares.addKeywords(
+            admin
+                .firestore()
+                .collection('keywords')
+        ),
+        (req, res, next) => {
+            res.json({
+                status: 1
+            })
+        }
+    ])
     
 module.exports = Router;
