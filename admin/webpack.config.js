@@ -8,6 +8,7 @@ const VENDORS = [
     'normalize.css',
     'react',
     'react-dom',
+    'react-id-swiper',
     'react-redux',
     'redux',
     'redux-logger',
