@@ -33,7 +33,8 @@ export class Navigator extends React.Component{
                     }
                 })
             }, {
-                initialRoutName: 'Intro'
+                initialRoutName: 'Intro',
+                tabBarComponent: () => null
             })
         );
 

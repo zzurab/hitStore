@@ -1,5 +1,7 @@
 
-import React from 'react';
+import React, {
+    Fragment
+} from 'react';
 import {connect} from 'react-redux';
 
 import {Navigator} from './components/Navigator';
@@ -9,9 +11,11 @@ import {Sidebar} from './components/Sidebar';
 class Application extends React.Component{
     render(){
         return (
-            <Sidebar>
-                <Navigator />
-            </Sidebar>
+            <Fragment>
+                <Sidebar>
+                    <Navigator />
+                </Sidebar>
+            </Fragment>
         )
     }
 }

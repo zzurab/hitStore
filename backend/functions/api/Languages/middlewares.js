@@ -1,7 +1,7 @@
 
 module.exports = {
-    getAllKeywords: ({keywords, languages}) => (req, res, next) => {
-        languages
+    getAllKeywords: ({keywordsCollection, languagesCollection}) => (req, res, next) => {
+        languagesCollection
             .get()
             .then(data => {
                 return languageDocs = data.docs.map(doc => doc);
@@ -12,7 +12,7 @@ module.exports = {
                     languageMap.push([doc.data().code, doc.id]);
                 });
 
-                keywords
+                keywordsCollection
                     .get()
                     .then(data => {
                         return data.docs.map(doc => doc.data());
@@ -47,8 +47,8 @@ module.exports = {
             })
     },
 
-    getKeywords: ({languages, keywords, errors}) => (req, res, next) => {
-        languages
+    getKeywords: ({languagesCollection, keywordsCollection, errors}) => (req, res, next) => {
+        languagesCollection
             .where('code', '==', req.query.code)
             .limit(1)
             .get()
@@ -60,7 +60,7 @@ module.exports = {
                 }
             })
             .then(id => {
-                return keywords
+                return keywordsCollection
                     .where('languageId', '==', id)
                     .get()
             })
@@ -149,6 +149,35 @@ module.exports = {
                 reject(error);
             })
     },
+    addKeywords: collection => (req, res, next) => {
+        let keyword = {
+            slag: req.body.slag,
+            createdAt: (new Date()).toISOString()
+        };
+
+        let promises = Object.keys(req.body.data).map(lang => {
+            return new Promise((resolve, reject) => {
+                keyword.value = req.body.data[lang];
+                keyword.languageId = lang;
+                collection
+                    .add(keyword)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+        });
+
+        Promise.all(promises)
+            .then(() => {
+                next();
+            })
+            .catch(error => {
+                next(error);
+            })
+    },
     removeKeywordById: collection => (req, res, next) => {
         collection
             .doc(req.body.id)
@@ -159,6 +188,41 @@ module.exports = {
             .catch(error => {
                 next(error);
             })
+    },
+    removeKeywordsBySlag: collection => (req, res, next) => {
+        let promises = [];
+        collection
+            .where('slag', '==', req.body.slag)
+            .get()
+            .then(data => {
+                return data.docs.map(data => data.id);
+            })
+            .then(IDS => {
+                promises = IDS.map(id => {
+                    return new Promise((resolve, reject) => {
+                        collection
+                            .doc(id)
+                            .delete()
+                            .then(() => {
+                                resolve();
+                            })
+                            .catch(error => {
+                                reject(error);
+                            });
+                    })
+                });
+
+                Promise.all(promises)
+                    .then(() => {
+                        next();
+                    })
+                    .catch(error => {
+                        next(error);
+                    });
+            })
+            .catch(error => {
+                next(error);
+            });
     },
     updateKeyword: collection => (req, res, next) => {
         let updateData = {

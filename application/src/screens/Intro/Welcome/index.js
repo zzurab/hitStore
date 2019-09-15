@@ -4,27 +4,25 @@ import React from 'react';
 import {
     View,
     Text,
+    ScrollView
 } from 'react-native';
-import {
-    Button
-} from 'react-native-material-ui';
+
+import {Container} from '../../../components/Container';
+
+import {Wrapper} from '../wrapper';
+
+import {styles} from './styles';
 
 class Welcome extends React.Component{
-    
+    constructor(props){
+        super(props);
+    }
+
     render(){
         return (
-            <View style={{marginTop: 60}}>
-                <Text>
-                    Content
-                </Text>
-                <Button 
-                    text={'login'}
-                    primary
-                    raised
-                    onPress={() => {
-                        this.props.navigation.navigate('Login');
-                    }}/>
-            </View>
+            <Wrapper>
+                
+            </Wrapper>
         )
     }
 }
