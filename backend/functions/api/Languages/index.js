@@ -29,10 +29,10 @@ const {errorMessages} = require('../../config');
 Router.route('/')
     .get([
         middlewares.getAllKeywords({
-            keywords: admin
+            keywordsCollection: admin
                 .firestore()
                 .collection('keywords'),
-            languages: admin
+            languagesCollection: admin
                 .firestore()
                 .collection('languages')
         }),
@@ -261,10 +261,10 @@ Router.route('/keywords')
             validationResult
         ),
         middlewares.getKeywords({
-            languages: admin
+            languagesCollection: admin
                 .firestore()
                 .collection('languages'),
-            keywords: admin
+            keywordsCollection: admin
                 .firestore()
                 .collection('keywords'),
             errors: {
@@ -394,11 +394,11 @@ Router.route('/keywords')
             .bail()
             .not()
             .custom(
-                validations.keywordExistsBySlag(
-                    admin
+                validations.keywordExistsBySlagAndLanguageId({
+                    keywordsCollection:  admin
                         .firestore()
                         .collection('keywords')
-                )
+                })
             )
                 .withMessage('/languages/keywords/slag/' + errorMessages.EXISTS)
             .bail()
@@ -481,5 +481,33 @@ Router.route('/keywords')
             })
         }
     ]);
+
+// Router.route('/keywords/multi')
+//     .put([
+//         header('authorization')
+//             .exists()
+//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.NOT_EXISTS)
+//             .bail()
+//             .not()
+//                 .isEmpty()
+//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.EMPTY)
+//             .bail()
+//             .custom(
+//                 authorized(admin)
+//             )
+//                 .withMessage('/languages/keywords/multi/auth/' + errorMessages.TOKEN),
+//         validationErrors(
+//             validationResult
+//         ),
+//         isAdmin({
+//             collection: admin
+//                 .firestore()
+//                 .collection('users'),
+//             ADMIN_ERROR: '/languages/keywords/multi/auth/' + errorMessages.ADMIN_ERROR
+//         }),
+//         check('slag')
+//             .exists()
+//                 .withMessage('/languages')
+//     ])
     
 module.exports = Router;

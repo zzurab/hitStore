@@ -1,7 +1,7 @@
 
 module.exports = {
-    getAllKeywords: ({keywords, languages}) => (req, res, next) => {
-        languages
+    getAllKeywords: ({keywordsCollection, languagesCollection}) => (req, res, next) => {
+        languagesCollection
             .get()
             .then(data => {
                 return languageDocs = data.docs.map(doc => doc);
@@ -12,7 +12,7 @@ module.exports = {
                     languageMap.push([doc.data().code, doc.id]);
                 });
 
-                keywords
+                keywordsCollection
                     .get()
                     .then(data => {
                         return data.docs.map(doc => doc.data());
@@ -47,8 +47,8 @@ module.exports = {
             })
     },
 
-    getKeywords: ({languages, keywords, errors}) => (req, res, next) => {
-        languages
+    getKeywords: ({languagesCollection, keywordsCollection, errors}) => (req, res, next) => {
+        languagesCollection
             .where('code', '==', req.query.code)
             .limit(1)
             .get()
@@ -60,7 +60,7 @@ module.exports = {
                 }
             })
             .then(id => {
-                return keywords
+                return keywordsCollection
                     .where('languageId', '==', id)
                     .get()
             })

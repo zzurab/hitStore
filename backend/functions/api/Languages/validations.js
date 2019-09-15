@@ -75,5 +75,17 @@ module.exports = {
             .catch(error => {
                 reject(error);
             })
+    }),
+    keywordExistsBySlagAndLanguageId: ({languageCollection, keywordsCollection}) => (value, {req}) => new Promise((resolve, reject) => {
+        keywordsCollection
+            .where('languageId', '==', req.body.languageId)
+            .where('slag', '==', value)
+            .get()
+            .then(data => {
+                return data.docs.length ? resolve() : reject();
+            })
+            .catch(error => {
+                reject(error);
+            })
     })
 }
