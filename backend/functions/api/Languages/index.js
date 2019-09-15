@@ -559,5 +559,57 @@ Router.route('/keywords/multi')
             })
         }
     ])
+    .delete([
+        header('authorization')
+            .exists()
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+                .isEmpty()
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.EMPTY)
+            .bail()
+            .custom(
+                authorized(admin)
+            )
+                .withMessage('/languages/keywords/multi/auth/' + errorMessages.TOKEN),
+        validationErrors(
+            validationResult
+        ),
+        isAdmin({
+            collection: admin
+                .firestore()
+                .collection('users'),
+            ADMIN_ERROR: '/languages/keywords/multi/auth/' + errorMessages.ADMIN_ERROR
+        }),
+        check('slag')
+            .exists()
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.NOT_EXISTS)
+            .bail()
+            .not()
+            .isEmpty()
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.EMPTY)
+            .bail()
+            .custom(
+                validations.keywordExistsBySlag(
+                    admin
+                        .firestore()
+                        .collection('keywords')
+                )
+            )
+                .withMessage('/languages/keywords/multi/slag/' + errorMessages.EXISTS),
+        validationErrors(
+            validationResult
+        ),
+        middlewares.removeKeywordsBySlag(
+            admin
+                .firestore()
+                .collection('keywords')
+        ),
+        (req, res, next) => {
+            res.json({
+                status: 1
+            })
+        }
+    ])
     
 module.exports = Router;

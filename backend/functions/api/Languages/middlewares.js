@@ -189,6 +189,41 @@ module.exports = {
                 next(error);
             })
     },
+    removeKeywordsBySlag: collection => (req, res, next) => {
+        let promises = [];
+        collection
+            .where('slag', '==', req.body.slag)
+            .get()
+            .then(data => {
+                return data.docs.map(data => data.id);
+            })
+            .then(IDS => {
+                promises = IDS.map(id => {
+                    return new Promise((resolve, reject) => {
+                        collection
+                            .doc(id)
+                            .delete()
+                            .then(() => {
+                                resolve();
+                            })
+                            .catch(error => {
+                                reject(error);
+                            });
+                    })
+                });
+
+                Promise.all(promises)
+                    .then(() => {
+                        next();
+                    })
+                    .catch(error => {
+                        next(error);
+                    });
+            })
+            .catch(error => {
+                next(error);
+            });
+    },
     updateKeyword: collection => (req, res, next) => {
         let updateData = {
             updatedAt: (new Date()).toISOString(),
