@@ -225,7 +225,7 @@ Router.route('/language')
                         .collection('languages')
                 )
             )
-                .withMessage('/languages/language/code/' + errorMessages.NOT_EXISTS),
+                .withMessage('/languages/language/id/' + errorMessages.NOT_EXISTS),
         validationErrors(
             validationResult
         ),
