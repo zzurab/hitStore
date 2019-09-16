@@ -16,7 +16,8 @@ const VENDORS = [
     'redux-thunk',
     'reactjs-localstorage',
     'react-router-dom',
-    '@material-ui/core'
+    '@material-ui/core',
+    '@material-ui/icons'
 ];
 
 module.exports = {
