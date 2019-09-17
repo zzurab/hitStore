@@ -25,14 +25,14 @@
 							"raw": "{\n\t\"email\": \"zuriko@gmail.com\",\n\t\"password\": \"zuriko\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/users/sign_in",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/users/sign_in",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"users",
@@ -59,14 +59,14 @@
 							"raw": "{\n\t\"email\": \"zuriko2@gmail.com\",\n\t\"password\": \"zuriko2\",\n\t\"confirm_password\": \"zuriko2\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/users/sign_up",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/users/sign_up",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"users",
@@ -104,14 +104,14 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/users/info",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/users/info",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"users",
@@ -148,14 +148,14 @@
 							"raw": "{\n\t\"code\": \"en\",\n\t\"name\": \"english\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/language",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/language",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -187,14 +187,14 @@
 							"raw": "{\n\t\"id\": \"QdxcNU9YYOWQgbIemstb\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/language",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/language",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -226,14 +226,14 @@
 							"raw": "{\n\t\"id\": \"Kd85s6Th2np38oSHcugB\",\n\t\"name\": \"new\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/language",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/language",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -249,14 +249,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages"
@@ -292,14 +292,14 @@
 							"raw": "{\n\t\"languageId\": \"k5dHNv67xnqLHSaMl20Y\",\n\t\"slag\": \"a\",\n\t\"value\": \"b\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/keywords",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/keywords",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -331,14 +331,14 @@
 							"raw": "{\n\t\"id\": \"cgiBPMSx5mj0d5WnYC5M\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/keywords",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/keywords",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -370,14 +370,14 @@
 							"raw": "{\n\t\"id\": \"uiartUSOLGnBO5aSCJu8\",\n\t\"value\": \"x\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/keywords",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/keywords",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
@@ -405,14 +405,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:5000/hitstore-ae613/us-central1/api/languages/keywords?code=en",
+							"raw": "http://localhost:5000/hitnews-52304/us-central1/api/languages/keywords?code=en",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"hitstore-ae613",
+								"hitnews-52304",
 								"us-central1",
 								"api",
 								"languages",
