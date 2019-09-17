@@ -17,7 +17,10 @@ const VENDORS = [
     'reactjs-localstorage',
     'react-router-dom',
     '@material-ui/core',
-    '@material-ui/icons'
+    '@material-ui/icons',
+    '@material-ui/pickers',
+    'clsx',
+    'react-swipeable-views'
 ];
 
 module.exports = {
