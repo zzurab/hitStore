@@ -1,5 +1,22 @@
 
 module.exports = {
+    getLanguages: collection => (req, res, next) => {
+        collection
+            .get()
+            .then(data => {
+                let result = data.docs.map(doc => {
+                    return {
+                        ...doc.data(),
+                        id: doc.id
+                    };
+                });
+                req.hitData = result;
+                next();
+            })
+            .catch(error => {
+                next(error);
+            })
+    },
     getAllKeywords: ({keywordsCollection, languagesCollection}) => (req, res, next) => {
         languagesCollection
             .get()

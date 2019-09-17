@@ -45,6 +45,21 @@ Router.route('/')
         }
     ])
 
+Router.route('/keys')
+    .get([
+        middlewares.getLanguages(
+            admin
+                .firestore()
+                .collection('languages')
+        ),
+        (req, res, next) => {
+            res.json({
+                status: 1,
+                response: req.hitData
+            })
+        }
+    ])
+
 Router.route('/language')
     .post([
         header('authorization')
